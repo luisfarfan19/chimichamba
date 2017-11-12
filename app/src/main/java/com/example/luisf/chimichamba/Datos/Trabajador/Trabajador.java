@@ -56,6 +56,11 @@ public class Trabajador {
         this.url_foto = url_foto;
     }
 
+    public Trabajador(String idFb, String nombre, String url_foto, String distancia) {
+        this.idFb = idFb;
+        this.nombre = nombre;
+        this.url_foto = url_foto;
+    }
     //GETERS AND SETTERS
 
 

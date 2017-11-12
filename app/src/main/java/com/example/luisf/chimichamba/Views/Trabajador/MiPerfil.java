@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 public class MiPerfil extends AppCompatActivity {
     String lat, lon;
+    private String nombreUsuario, idUsuarioFb, fotoUrlUsuario;
     private TrabajadorCRUD trabajadorCRUD;
     private Trabajador trabajador;
     private ImageView ivFoto;
@@ -36,10 +37,15 @@ public class MiPerfil extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         lat = bundle.getString("lat");
         lon = bundle.getString("lon");
+        nombreUsuario = bundle.getString("NombreUsuario");
+        idUsuarioFb = bundle.getString("IDUsuario");
+        fotoUrlUsuario = bundle.getString("FotoUrlUsuario");
 
-        if (trabajadorCRUD.hayTrabajador()) {
-            trabajador = trabajadorCRUD.getTrabajador("idFb1");
-            Picasso.with(this).load(trabajador.getUrl_foto()).into(ivFoto);
+        tvNombre.setText(nombreUsuario);
+        Picasso.with(this).load(fotoUrlUsuario).into(ivFoto);
+
+        if (trabajadorCRUD.hayTrabajador(idUsuarioFb)) {
+            trabajador = trabajadorCRUD.getTrabajador(idUsuarioFb);
             tvNombre.setText(trabajador.getNombre());
             tvProfesion.setText(trabajador.getProfesion());
             tvCategoria.setText(trabajador.getCategoria());
@@ -47,8 +53,8 @@ public class MiPerfil extends AppCompatActivity {
             tvSobre_mi.setText(trabajador.getSobre_mi());
 
         } else {
-            trabajadorCRUD.newTrabajador(new Trabajador("idFb1", "Luis Farfan",
-                    "luisfarfanlara@hotmail.com", "", "", 1, "", "", 1, 1, "", ""));
+            trabajadorCRUD.newTrabajador(new Trabajador(idUsuarioFb, nombreUsuario,
+                    "luisfarfanlara@hotmail.com", "", "", 1, "", "", 1, 1, "", fotoUrlUsuario));
         }
     }
 
@@ -58,6 +64,9 @@ public class MiPerfil extends AppCompatActivity {
                 Intent intent1 = new Intent(MiPerfil.this, Configuracion.class);
                 intent1.putExtra("lat", lat);
                 intent1.putExtra("lon", lon);
+                intent1.putExtra("NombreUsuario", nombreUsuario);
+                intent1.putExtra("IDUsuario", idUsuarioFb);
+                intent1.putExtra("FotoUrlUsuario", fotoUrlUsuario);
                 startActivity(intent1);
                 break;
         }
@@ -67,6 +76,7 @@ public class MiPerfil extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.ibMisChats:
                 Intent intent1 = new Intent(MiPerfil.this, MisChats.class);
+                intent1.putExtra("trabajadoridfb", idUsuarioFb);
                 startActivity(intent1);
                 break;
         }

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.luisf.chimichamba.Datos.DataBaseHelper;
 
@@ -41,11 +42,11 @@ public class TrabajadorCRUD {
         db.close();
     }
 
-    public boolean hayTrabajador(){
+    public boolean hayTrabajador(String idFb) {
         boolean hayTrabajador = false;
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM " + TrabajadorContract.Entrada.NOMBRE_TABLA, null);
-        while (c.moveToNext()){
+        Cursor c = db.rawQuery("SELECT * FROM " + TrabajadorContract.Entrada.NOMBRE_TABLA + " WHERE idfb = " + idFb, null);
+        while (c.moveToNext()) {
             hayTrabajador = true;
         }
         db.close();
@@ -133,5 +134,53 @@ public class TrabajadorCRUD {
                 new String[]{String.valueOf(trabajador.getId())}
         );
         db.close();
+    }
+
+    public ArrayList<Trabajador> getTrabajadores() {
+        ArrayList<Trabajador> trabajadores = new ArrayList<Trabajador>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columnas = {
+                TrabajadorContract.Entrada.COLUMNA_ID,
+                TrabajadorContract.Entrada.COLUMNA_IDFB,
+                TrabajadorContract.Entrada.COLUMNA_NOMBRE,
+                TrabajadorContract.Entrada.COLUMNA_EMAIL,
+                TrabajadorContract.Entrada.COLUMNA_PROFESION,
+                TrabajadorContract.Entrada.COLUMNA_CATEGORIA,
+                TrabajadorContract.Entrada.COLUMNA_EXPERIENCIA,
+                TrabajadorContract.Entrada.COLUMNA_LAT_ACTUAL,
+                TrabajadorContract.Entrada.COLUMNA_LON_ACTUAL,
+                TrabajadorContract.Entrada.COLUMNA_RADIO_UBICACION,
+                TrabajadorContract.Entrada.COLUMNA_PUEDE_VIAJAR,
+                TrabajadorContract.Entrada.COLUMNA_SOBRE_MI,
+                TrabajadorContract.Entrada.COLUMNA_URL_FOTO,
+        };
+
+        Cursor c = db.query(TrabajadorContract.Entrada.NOMBRE_TABLA,
+                columnas,
+                null,
+                null,
+                null,
+                null,
+                null);
+        while (c.moveToNext()) {
+            trabajadores.add(new Trabajador(
+                    c.getInt(c.getColumnIndexOrThrow(TrabajadorContract.Entrada.COLUMNA_ID)),
+                    c.getString(c.getColumnIndexOrThrow(TrabajadorContract.Entrada.COLUMNA_IDFB)),
+                    c.getString(c.getColumnIndexOrThrow(TrabajadorContract.Entrada.COLUMNA_NOMBRE)),
+                    c.getString(c.getColumnIndexOrThrow(TrabajadorContract.Entrada.COLUMNA_EMAIL)),
+                    c.getString(c.getColumnIndexOrThrow(TrabajadorContract.Entrada.COLUMNA_PROFESION)),
+                    c.getString(c.getColumnIndexOrThrow(TrabajadorContract.Entrada.COLUMNA_CATEGORIA)),
+                    c.getInt(c.getColumnIndexOrThrow(TrabajadorContract.Entrada.COLUMNA_EXPERIENCIA)),
+                    c.getString(c.getColumnIndexOrThrow(TrabajadorContract.Entrada.COLUMNA_LAT_ACTUAL)),
+                    c.getString(c.getColumnIndexOrThrow(TrabajadorContract.Entrada.COLUMNA_LON_ACTUAL)),
+                    c.getInt(c.getColumnIndexOrThrow(TrabajadorContract.Entrada.COLUMNA_RADIO_UBICACION)),
+                    c.getInt(c.getColumnIndexOrThrow(TrabajadorContract.Entrada.COLUMNA_PUEDE_VIAJAR)),
+                    c.getString(c.getColumnIndexOrThrow(TrabajadorContract.Entrada.COLUMNA_SOBRE_MI)),
+                    c.getString(c.getColumnIndexOrThrow(TrabajadorContract.Entrada.COLUMNA_URL_FOTO))
+            ));
+        }
+        db.close();
+        return trabajadores;
     }
 }

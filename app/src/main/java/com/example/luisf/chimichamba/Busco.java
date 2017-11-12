@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.luisf.chimichamba.Views.Busco_Trabajador.BuscoTrabajador;
+import com.example.luisf.chimichamba.Views.Busco_Trabajador.BuscoTrabajadorV;
 import com.example.luisf.chimichamba.Views.Trabajador.MiPerfil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,6 +27,7 @@ public class Busco extends AppCompatActivity implements
 
     private TextView tvLat, tvLon;
     private String latitud, longitud;
+    private String nombreUsuario, idUsuario, fotoUrlUsuario;
     private GoogleApiClient googleApiClient; // Cliente de Google API
     private android.location.Location location;           // Objeto para obtener ubicación
     private final int REQUEST_LOCATION = 1;   // Código de petición para ubicación
@@ -37,6 +38,9 @@ public class Busco extends AppCompatActivity implements
                 Intent intent = new Intent(Busco.this, MiPerfil.class);
                 intent.putExtra("lat", tvLat.getText().toString());
                 intent.putExtra("lon", tvLon.getText().toString());
+                intent.putExtra("NombreUsuario", nombreUsuario);
+                intent.putExtra("IDUsuario", idUsuario);
+                intent.putExtra("FotoUrlUsuario", fotoUrlUsuario);
                 startActivity(intent);
                 break;
         }
@@ -45,7 +49,12 @@ public class Busco extends AppCompatActivity implements
     public void buscoTrabajador(View view) {
         switch (view.getId()) {
             case R.id.bBuscoTrabajador:
-                Intent intent = new Intent(Busco.this, BuscoTrabajador.class);
+                Intent intent = new Intent(Busco.this, BuscoTrabajadorV.class);
+                intent.putExtra("lat", tvLat.getText().toString());
+                intent.putExtra("lon", tvLon.getText().toString());
+                intent.putExtra("NombreUsuario", nombreUsuario);
+                intent.putExtra("IDUsuario", idUsuario);
+                intent.putExtra("FotoUrlUsuario", fotoUrlUsuario);
                 startActivity(intent);
                 break;
         }
@@ -57,6 +66,10 @@ public class Busco extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busco);
+        Bundle bundle = getIntent().getExtras();
+        nombreUsuario = bundle.getString("NombreUsuario");
+        idUsuario = bundle.getString("IDUsuario");
+        fotoUrlUsuario = bundle.getString("FotoUrlUsuario");
 
         tvLat = (TextView) findViewById(R.id.tvLat);
         tvLon = (TextView) findViewById(R.id.tvLon);

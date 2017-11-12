@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ import com.example.luisf.chimichamba.Datos.Trabajador.Trabajador;
 import com.example.luisf.chimichamba.Datos.Trabajador.TrabajadorCRUD;
 import com.example.luisf.chimichamba.Adaptadores.ExpandableCustomAdapter;
 import com.example.luisf.chimichamba.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -42,6 +44,7 @@ public class Configuracion extends AppCompatActivity {
     private TrabajadorCRUD trabajadorCRUD;
 
     TextView tvConfNombre, tvConfCorreo;
+    private String nombreUsuario, idUsuarioFb, fotoUrlUsuario;
 
     Button bGuardarTrabajador;
     EditText etProf;
@@ -83,20 +86,22 @@ public class Configuracion extends AppCompatActivity {
 
         trabajadorCRUD = new TrabajadorCRUD(this);
         Bundle bundle = getIntent().getExtras();
+        nombreUsuario = bundle.getString("NombreUsuario");
+        idUsuarioFb = bundle.getString("IDUsuario");
+        fotoUrlUsuario = bundle.getString("FotoUrlUsuario");
 
-        if (trabajadorCRUD.hayTrabajador()) {
-            trabajador = trabajadorCRUD.getTrabajador("idFb1");
-            //Picasso.with(this).load(trabajador.getUrl_foto()).into(bCambiarFoto);
+        if (trabajadorCRUD.hayTrabajador(idUsuarioFb)) {
+            trabajador = trabajadorCRUD.getTrabajador(idUsuarioFb);
+            Picasso.with(this).load(trabajador.getUrl_foto()).into(bCambiarFoto);
             tvConfNombre.setText(trabajador.getNombre());
             tvConfCorreo.setText(trabajador.getEmail());
             etProf.setText(trabajador.getProfesion());
-
         }
+
         lat = bundle.getString("lat");
         lon = bundle.getString("lon");
         tvExperiencia.setText("0");
         tvUbicacion.setText("0");
-        // get the listview
         expListView = (ExpandableListView) findViewById(R.id.lvUserFiltro);
 
         // preparing list data
@@ -145,9 +150,6 @@ public class Configuracion extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Obtener toda la informacion
-                //Update Trabajador
-                String idFb = "idFb1";
-                String nombre = "Luis Farfan";
                 String correo = "luisfarfanlara@hotmail.com";
                 String profesion = etProf.getText().toString();
                 int switch1 = 0;
@@ -158,9 +160,9 @@ public class Configuracion extends AppCompatActivity {
                 }
                 String urlFoto = tvUrl.getText().toString();
 
-                Trabajador trabajador1 = new Trabajador(idFb, nombre, correo,
+                Trabajador trabajador1 = new Trabajador(idUsuarioFb, nombreUsuario, correo,
                         profesion, categoria, progressExperiencia, lat, lon,
-                        progressUbicacion, switch1, "", urlFoto);
+                        progressUbicacion, switch1, "", fotoUrlUsuario);
                 /*Log.d("USERidFb: ", idFb);
                 Log.d("USERnombre: ", nombre);
                 Log.d("USERprofesion: ", profesion);
@@ -179,6 +181,9 @@ public class Configuracion extends AppCompatActivity {
                 Intent intent = new Intent(Configuracion.this, MiPerfil.class);
                 intent.putExtra("lat", lat);
                 intent.putExtra("lon", lon);
+                intent.putExtra("NombreUsuario", nombreUsuario);
+                intent.putExtra("IDUsuario", idUsuarioFb);
+                intent.putExtra("FotoUrlUsuario", fotoUrlUsuario);
                 startActivity(intent);
 
             }
@@ -191,6 +196,8 @@ public class Configuracion extends AppCompatActivity {
                                         int groupPosition, int childPosition, long id) {
 
                 categoria = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+                Toast.makeText(Configuracion.this, categoria.toString() + " fue seleccionada.",
+                        Toast.LENGTH_LONG).show();
                 return false;
             }
         });
