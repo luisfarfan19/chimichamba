@@ -17,3 +17,9 @@ confiable. La verison de API utilizada es 24.
 ![Alt text](/Images/4.png?raw=true "Optional Title")
 ![Alt text](/Images/2.png?raw=true "Optional Title")
 ![Alt text](/Images/1.png?raw=true "Optional Title")
+
+Existen cosas que aun le faltan a la aplicacion, por ejemplo:
+-Implementar correctamente el boton de "sobre mi".
+-Si estas en busqueda de un trabajador, el radio y la categoria no estan habilitadas.
+	Por defecto, esta en un radio de 20km y trae a todos los usuarios (sin importar la categoria que eligieron).
+-Falta el chat, una vez que hicieron "MATCH".

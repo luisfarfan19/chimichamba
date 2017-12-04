@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.luisf.chimichamba.Views.Busco_Trabajador.BuscoTrabajadorV;
 import com.example.luisf.chimichamba.Views.Trabajador.MiPerfil;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -41,6 +42,16 @@ public class Busco extends AppCompatActivity implements
                 intent.putExtra("NombreUsuario", nombreUsuario);
                 intent.putExtra("IDUsuario", idUsuario);
                 intent.putExtra("FotoUrlUsuario", fotoUrlUsuario);
+                startActivity(intent);
+                break;
+        }
+    }
+
+    public void logOut(View view) {
+        switch (view.getId()) {
+            case R.id.bLogOut:
+                Intent intent = new Intent(Busco.this, LogIn.class);
+                LoginManager.getInstance().logOut();
                 startActivity(intent);
                 break;
         }

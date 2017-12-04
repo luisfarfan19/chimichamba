@@ -13,4 +13,5 @@
         app:srcCompat="@drawable/chat"
         tools:layout_editor_absoluteX="18dp"
         tools:layout_editor_absoluteY="48dp" />
+
 </android.support.constraint.ConstraintLayout>
