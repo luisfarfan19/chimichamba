@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.luisf.chimichamba.Views.Trabajador.MisChats">
+
+    <TextView
+        android:id="@+id/tvMisChats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mis Chats: "
+        tools:layout_editor_absoluteX="163dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <ListView
+        android:id="@+id/lvMisChats"
+        android:layout_width="354dp"
+        android:layout_height="422dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="74dp" />
+
+</android.support.constraint.ConstraintLayout>
